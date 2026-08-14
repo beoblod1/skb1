@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сделай как было — Автокомплекс в Красноярске</title>
+  <meta name="description" content="Автокомплекс «Сделай как было» в Красноярске. Кузовной ремонт, слесарные работы, детейлинг, тонировка. Честно и по-человечески." />
+  <style>
+    /* ===== ПЕРЕМЕННЫЕ ЦВЕТОВ ===== */
+    :root {
+      --bg-dark:      #1a1a1e;   /* Очень тёмный фон */
+      --bg-card:      #252528;   /* Чуть светлее — для карточек */
+      --bg-section:   #1e1e22;   /* Фон секций */
+      --red:          #d42b2b;   /* Красный акцент */
+      --red-hover:    #b71f1f;   /* Красный при наведении */
+      --red-light:    #ff4444;   /* Светло-красный для иконок */
+      --text-main:    #f0f0f0;   /* Основной светлый текст */
+      --text-muted:   #a0a0a8;   /* Приглушённый текст */
+      --text-accent:  #ffffff;   /* Белый текст на кнопках */
+      --border:       #333338;   /* Граница карточек */
+      --gold:         #e8a020;   /* Золотистый — для акцентов «честность» */
+    }
+
+    /* ===== СБРОС И БАЗОВЫЕ СТИЛИ ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ===== ОБЩИЕ КНОПКИ ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-red {
+      background: var(--red);
+      color: var(--text-accent);
+    }
+
+    .btn-red:hover {
+      background: var(--red-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-main);
+      border: 2px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--red);
+      color: var(--red-light);
+    }
+
+    .btn-big {
+      padding: 18px 36px;
+      font-size: 18px;
+      border-radius: 10px;
+    }
+
+    /* ===== ШАПКА (HEADER) ===== */
+    header {
+      background: #111114;
+      border-bottom: 2px solid var(--red);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 20px;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px 0;
+    }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--red);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-accent);
+      line-height: 1.1;
+      letter-spacing: 0.3px;
+    }
+
+    .logo-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .worktime {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .worktime span {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .header-phone-btn {
+      background: var(--red);
+      color: white;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, transform 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-phone-btn:hover {
+      background: var(--red-hover);
+    }
+
+    .header-phone-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ===== HERO (ГЛАВНЫЙ ЭКРАН) ===== */
+    .hero {
+      background: linear-gradient(135deg, #0e0e10 0%, #1a1a1e 50%, #1e0a0a 100%);
+      min-height: 88vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Декоративный фоновый элемент */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212,43,43,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: -60px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212,43,43,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 720px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(212,43,43,0.15);
+      border: 1px solid rgba(212,43,43,0.4);
+      color: var(--red-light);
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 60px);
+      font-weight: 900;
+      color: var(--text-accent);
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 .brand {
+      color: var(--red-light);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-subtitle strong {
+      color: var(--gold);
+    }
+
+    .hero-trust {
+      display: flex;
+      gap: 28px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .trust-item .icon {
+      font-size: 18px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== ОБЩИЕ СТИЛИ СЕКЦИЙ ===== */
+    section {
+      padding: 70px 20px;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(24px, 4vw, 38px);
+      font-weight: 800;
+      color: var(--text-accent);
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--red);
+      border-radius: 2px;
+      margin-top: 8px;
+    }
+
+    .section-lead {
+      color: var(--text-muted);
+      font-size: 16px;
+      margin-bottom: 48px;
+      margin-top: 6px;
+      max-width: 600px;
+    }
+
+    /* ===== БЛОК УСЛУГИ ===== */
+    .services {
+      background: var(--bg-section);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .service-card:hover {
+      border-color: var(--red);
+      transform: translateY(-4px);
+    }
+
+    .service-photo {
+      height: 180px;
+      background: linear-gradient(135deg, #2a2a30, #1e1e24);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-photo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(212,43,43,0.08), transparent);
+    }
+
+    .service-photo-icon {
+      font-size: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .service-photo-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-align: center;
+      padding: 0 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* === СТИЛЬ ДЛЯ РЕАЛЬНЫХ ФОТО (когда вставишь <img class="service-img">) === */
+    .service-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;   /* обрезает фото красиво, без искажений */
+      display: block;
+    }
+
+    .service-body {
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .service-icon-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .service-badge {
+      width: 36px;
+      height: 36px;
+      background: rgba(212,43,43,0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .service-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-accent);
+    }
+
+    .service-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    /* ===== БЛОК «НАШИ ПРИНЦИПЫ» ===== */
+    .principles {
+      background: var(--bg-dark);
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .principle-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 22px;
+      text-align: center;
+    }
+
+    .principle-icon {
+      font-size: 36px;
+      margin-bottom: 14px;
+    }
+
+    .principle-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-accent);
+      margin-bottom: 8px;
+    }
+
+    .principle-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== БЛОК ФИЛИАЛЫ ===== */
+    .branches {
+      background: var(--bg-section);
+    }
+
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .branch-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .branch-card:hover {
+      border-color: var(--red);
+    }
+
+    .branch-header {
+      background: var(--red);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .branch-header-icon {
+      font-size: 28px;
+    }
+
+    .branch-header-text {
+      flex: 1;
+    }
+
+    .branch-type {
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .branch-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+    }
+
+    .branch-body {
+      padding: 24px;
+    }
+
+    .branch-info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .branch-info-icon {
+      font-size: 18px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .branch-info-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 2px;
+    }
+
+    .branch-info-value {
+      font-size: 15px;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .branch-phone-link {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--red-light);
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .branch-phone-link:hover {
+      color: white;
+    }
+
+    .branch-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .branch-btns .btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 13px 16px;
+      font-size: 14px;
+    }
+
+    /* ===== ФУТЕР ===== */
+    footer {
+      background: #0d0d0f;
+      border-top: 2px solid var(--red);
+      padding: 40px 20px 30px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text-accent);
+      margin-bottom: 6px;
+    }
+
+    .footer-logo span {
+      color: var(--red-light);
+    }
+
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .footer-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    .footer-phones {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .footer-phone-block {
+      text-align: center;
+    }
+
+    .footer-phone-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+
+    .footer-phone-number {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--red-light);
+    }
+
+    .footer-phone-number:hover {
+      color: white;
+    }
+
+    .footer-worktime {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .footer-worktime strong {
+      color: var(--gold);
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: #555;
+      margin-top: 20px;
+    }
+
+    /* ===== FLOATING PHONE BUTTON (мобильный) ===== */
+    .float-call {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 200;
+      width: 60px;
+      height: 60px;
+      background: var(--red);
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 4px 20px rgba(212,43,43,0.5);
+      transition: background 0.2s, transform 0.15s;
+      animation: pulse 2s infinite;
+    }
+
+    .float-call:hover {
+      background: var(--red-hover);
+      transform: scale(1.1);
+    }
+
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(212,43,43,0.5); }
+      70%  { box-shadow: 0 0 0 14px rgba(212,43,43,0); }
+      100% { box-shadow: 0 0 0 0 rgba(212,43,43,0); }
+    }
+
+    /* ===== АДАПТИВНОСТЬ ===== */
+    @media (max-width: 768px) {
+      section {
+        padding: 50px 16px;
+      }
+
+      .header-inner {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .logo-block {
+        justify-content: center;
+      }
+
+      .header-right {
+        justify-content: center;
+      }
+
+      .worktime {
+        text-align: center;
+      }
+
+      .hero {
+        min-height: 92vh;
+        padding: 40px 16px;
+      }
+
+      .hero-btns {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero-btns .btn {
+        width: 100%;
+        max-width: 320px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .branches-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .branch-btns {
+        flex-direction: column;
+      }
+
+      .branch-btns .btn {
+        width: 100%;
+      }
+
+      .footer-phones {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .float-call {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-phone-btn {
+        font-size: 15px;
+        padding: 11px 18px;
+      }
+
+      .principles-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== ШАПКА ===================== -->
+<header>
+  <div class="header-inner">
+
+    <!-- Логотип -->
+    <div class="logo-block">
+      <div class="logo-icon">🔧</div>
+      <div class="logo-text">
+        <span class="logo-name">Сделай как было</span>
+        <span class="logo-sub">Автокомплекс · Красноярск</span>
+      </div>
+    </div>
+
+    <!-- Телефон и время работы -->
+    <div class="header-right">
+      <div class="worktime">
+        <span>Пн–Сб: 9:00–19:00</span><br>
+        Вс — выходной
+      </div>
+      <!-- ✏️ ТЕЛЕФОН: замени +79836142064 на нужный -->
+      <a href="tel:+79836142064" class="header-phone-btn">
+        📞 +7 (983) 614‑20‑64
+      </a>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- ===================== ГЛАВНЫЙ ЭКРАН (HERO) ===================== -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+
+    <div class="hero-badge">Автокомплекс в Красноярске</div>
+
+    <h1>
+      Автокомплекс<br>
+      <span class="brand">«Сделай как было»</span>
+    </h1>
+
+    <!-- ✏️ ПОДЗАГОЛОВОК: измени текст под своё желание -->
+    <p class="hero-subtitle">
+      Ремонтируем честно, оцениваем по-человечески.<br>
+      <strong>Гуманные ценники</strong> — без накруток и скрытых доплат.
+    </p>
+
+    <div class="hero-trust">
+      <div class="trust-item"><span class="icon">✅</span> Честная оценка</div>
+      <div class="trust-item"><span class="icon">💰</span> Гуманные цены</div>
+      <div class="trust-item"><span class="icon">🛡️</span> Качественно</div>
+      <div class="trust-item"><span class="icon">📍</span> Красноярск</div>
+    </div>
+
+    <div class="hero-btns">
+      <!-- ✏️ ТЕЛЕФОН: замени +79836142064 на нужный -->
+      <a href="tel:+79836142064" class="btn btn-red btn-big">
+        📞 Позвонить сейчас
+      </a>
+      <a href="#branches" class="btn btn-outline btn-big">
+        📍 Наши адреса
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================== БЛОК УСЛУГИ ===================== -->
+<section class="services" id="services">
+  <div class="section-inner">
+
+    <h2 class="section-title">Наши услуги</h2>
+    <p class="section-lead">Всё, что нужно вашему автомобилю — в одном месте.</p>
+
+    <div class="services-grid">
+
+      <!-- КАРТОЧКА 1: Слесарные работы -->
+      <div class="service-card">
+        <!-- ╔══════════════════════════════════════════════════════╗
+             ║  📸 КАК ВСТАВИТЬ ФОТО (читай внимательно!)          ║
+             ║                                                      ║
+             ║  1. Сохрани фото рядом с index.html                 ║
+             ║  2. Назови файл латиницей: slesarka.jpg             ║
+             ║  3. Удали строки от <div class="service-photo">     ║
+             ║     до закрывающего </div>                          ║
+             ║  4. Вместо них вставь одну строку ниже ↓            ║
+             ╚══════════════════════════════════════════════════════╝
+             ВСТАВЬ СЮДА: <img src="slesarka.jpg" alt="Слесарные работы" class="service-img"> -->
+        <img src="slesarka.jpg" alt="Слесарные работы" class="service-img">
+        <div class="service-body">
+          <div class="service-icon-row">
+            <div class="service-badge">🔩</div>
+            <div class="service-title">Слесарные работы</div>
+          </div>
+          <!-- ✏️ ОПИСАНИЕ: измени под свои услуги -->
+          <p class="service-desc">
+            Ремонт ходовой части, тормозной системы, замена масла и фильтров. Диагностика и устранение любых неисправностей.
+          </p>
+          <a href="#branches" class="btn btn-outline" style="font-size:14px; padding:11px 18px;">
+            📍 Адрес и телефон →
+          </a>
+        </div>
+      </div>
+
+      <!-- КАРТОЧКА 2: Кузовной ремонт -->
+      <div class="service-card">
+        <!-- ВСТАВЬ СЮДА: <img src="kuzov.jpg" alt="Кузовной ремонт" class="service-img"> -->
+        <img src="kuzov.jpg" alt="Кузовной ремонт" class="service-img">
+        <div class="service-body">
+          <div class="service-icon-row">
+            <div class="service-badge">🚗</div>
+            <div class="service-title">Кузовной ремонт</div>
+          </div>
+          <p class="service-desc">
+            Рихтовка, покраска, устранение вмятин и царапин. Восстановим кузов до заводского состояния.
+          </p>
+          <a href="#branches" class="btn btn-outline" style="font-size:14px; padding:11px 18px;">
+            📍 Адрес и телефон →
+          </a>
+        </div>
+      </div>
+
+      <!-- КАРТОЧКА 3: Детейлинг -->
+      <div class="service-card">
+        <!-- ВСТАВЬ СЮДА: <img src="detailing.jpg" alt="Детейлинг" class="service-img"> -->
+        <img src="detailing.jpg" alt="Детейлинг" class="service-img">
+        <div class="service-body">
+          <div class="service-icon-row">
+            <div class="service-badge">✨</div>
+            <div class="service-title">Детейлинг</div>
+          </div>
+          <p class="service-desc">
+            Профессиональная химчистка, полировка кузова и фар, нанесение защитных покрытий. Машина как новая.
+          </p>
+          <a href="#branches" class="btn btn-outline" style="font-size:14px; padding:11px 18px;">
+            📍 Адрес и телефон →
+          </a>
+        </div>
+      </div>
+
+      <!-- КАРТОЧКА 4: Тонировка -->
+      <div class="service-card">
+        <!-- ВСТАВЬ СЮДА: <img src="tonirovka.jpg" alt="Тонировка" class="service-img"> -->
+        <img src="tonirovka.jpg" alt="Тонировка" class="service-img">
+        <div class="service-body">
+          <div class="service-icon-row">
+            <div class="service-badge">🌑</div>
+            <div class="service-title">Тонировка</div>
+          </div>
+          <p class="service-desc">
+            Тонировка стёкол качественной плёнкой. Защита от солнца, приватность, эстетика. Быстро и аккуратно.
+          </p>
+          <a href="#branches" class="btn btn-outline" style="font-size:14px; padding:11px 18px;">
+            📍 Адрес и телефон →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== БЛОК «НАШИ ПРИНЦИПЫ» ===================== -->
+<section class="principles" id="about">
+  <div class="section-inner">
+
+    <h2 class="section-title">Почему выбирают нас</h2>
+    <p class="section-lead">Мы не обещаем — мы делаем.</p>
+
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-icon">🤝</div>
+        <div class="principle-title">Честность</div>
+        <div class="principle-text">Показываем, что сломалось, объясняем что и зачем делаем. Никаких «лишних» работ.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">💰</div>
+        <div class="principle-title">Гуманные цены</div>
+        <div class="principle-text">Берём справедливо. Без накрутки «за бренд» — вы платите за работу, не за вывеску.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">🔍</div>
+        <div class="principle-title">Диагностика</div>
+        <div class="principle-text">Сначала смотрим, потом называем цену. Не наоборот.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">⏱️</div>
+        <div class="principle-title">В срок</div>
+        <div class="principle-text">Говорим когда будет готово — и делаем в это время. Уважаем ваше расписание.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================== БЛОК ФИЛИАЛЫ ===================== -->
+<section class="branches" id="branches">
+  <div class="section-inner">
+
+    <h2 class="section-title">Наши филиалы</h2>
+    <p class="section-lead">Два адреса в Красноярске — приезжайте в удобный.</p>
+
+    <div class="branches-grid">
+
+      <!-- ФИЛИАЛ 1: Кузовной ремонт (главный) -->
+      <div class="branch-card">
+        <div class="branch-header">
+          <div class="branch-header-icon">🏠</div>
+          <div class="branch-header-text">
+            <div class="branch-type">Главный филиал</div>
+            <div class="branch-name">Кузовной ремонт</div>
+          </div>
+        </div>
+        <div class="branch-body">
+
+          <div class="branch-info-row">
+            <div class="branch-info-icon">📍</div>
+            <div>
+              <div class="branch-info-label">Адрес</div>
+              <!-- ✏️ АДРЕС: измени при необходимости -->
+              <div class="branch-info-value">пр. Связистов, 17 ст4<br>Красноярск</div>
+            </div>
+          </div>
+
+          <div class="branch-info-row">
+            <div class="branch-info-icon">📞</div>
+            <div>
+              <div class="branch-info-label">Телефон</div>
+              <!-- ✏️ ТЕЛЕФОН: замени +79836142064 -->
+              <a href="tel:+79836142064" class="branch-phone-link">+7 (983) 614‑20‑64</a>
+            </div>
+          </div>
+
+          <div class="branch-info-row">
+            <div class="branch-info-icon">🕐</div>
+            <div>
+              <div class="branch-info-label">Режим работы</div>
+              <div class="branch-info-value">Пн–Сб: 9:00–19:00<br>Вс — выходной</div>
+            </div>
+          </div>
+
+          <div class="branch-btns">
+            <!-- ✏️ ТЕЛЕФОН в кнопке: замени +79836142064 -->
+            <a href="tel:+79836142064" class="btn btn-red">
+              📞 Позвонить
+            </a>
+            <!-- ✏️ ССЫЛКА НА КАРТЫ: можно уточнить адрес в тексте -->
+            <a href="https://go.2gis.com/N5PI5" target="_blank" rel="noopener" class="btn btn-outline">
+              🗺️ Как проехать
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ФИЛИАЛ 2: Слесарные работы -->
+      <div class="branch-card">
+        <div class="branch-header">
+          <div class="branch-header-icon">🔧</div>
+          <div class="branch-header-text">
+            <div class="branch-type">Второй филиал</div>
+            <div class="branch-name">Слесарные работы</div>
+          </div>
+        </div>
+        <div class="branch-body">
+
+          <div class="branch-info-row">
+            <div class="branch-info-icon">📍</div>
+            <div>
+              <div class="branch-info-label">Адрес</div>
+              <!-- ✏️ АДРЕС: измени при необходимости -->
+              <div class="branch-info-value">ул. Волгоградская, 2б, бокс 75<br>Красноярск</div>
+            </div>
+          </div>
+
+          <div class="branch-info-row">
+            <div class="branch-info-icon">📞</div>
+            <div>
+              <div class="branch-info-label">Телефон</div>
+              <!-- ✏️ ТЕЛЕФОН: замени +79082002600 -->
+              <a href="tel:+79082002600" class="branch-phone-link">+7 (908) 200‑26‑00</a>
+            </div>
+          </div>
+
+          <div class="branch-info-row">
+            <div class="branch-info-icon">🕐</div>
+            <div>
+              <div class="branch-info-label">Режим работы</div>
+              <div class="branch-info-value">Пн–Сб: 9:00–19:00<br>Вс — выходной</div>
+            </div>
+          </div>
+
+          <div class="branch-btns">
+            <!-- ✏️ ТЕЛЕФОН в кнопке: замени +79082002600 -->
+            <a href="tel:+79082002600" class="btn btn-red">
+              📞 Позвонить
+            </a>
+            <!-- ✏️ ССЫЛКА НА КАРТЫ -->
+            <a href="https://go.2gis.com/FzdxW" target="_blank" rel="noopener" class="btn btn-outline">
+              🗺️ Как проехать
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== ФУТЕР ===================== -->
+<footer>
+  <div class="footer-inner">
+
+    <div class="footer-logo">Сделай <span>как было</span></div>
+    <div class="footer-tagline">Автокомплекс в Красноярске — честно и по-человечески</div>
+
+    <div class="footer-phones">
+      <div class="footer-phone-block">
+        <div class="footer-phone-label">Кузовной ремонт </div>
+        <!-- ✏️ ТЕЛЕФОН: замени +79836142064 -->
+        <a href="tel:+79836142064" class="footer-phone-number">+7 (983) 614‑20‑64</a>
+      </div>
+      <div class="footer-phone-block">
+        <div class="footer-phone-label">Слесарные работы</div>
+        <!-- ✏️ ТЕЛЕФОН: замени +79082002600 -->
+        <a href="tel:+79082002600" class="footer-phone-number">+7 (908) 200‑26‑00</a>
+      </div>
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-worktime">
+      Время работы: <strong>Пн–Сб 9:00–19:00</strong> · Вс — выходной
+    </div>
+
+    <div class="footer-copy">
+      © 2026 Автокомплекс «Сделай как было» · Красноярск
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ===================== ИНСТРУКЦИЯ ПО ФОТО (виден только в коде, не на сайте) =====================
+
+  КАК ДОБАВИТЬ ФОТО — ПОШАГОВО ДЛЯ НОВИЧКА
+  ==========================================
+
+  ШАГ 1. Подготовь фото
+  ─────────────────────
+  • Формат: JPG или PNG (JPG — лучше, весит меньше)
+  • Размер: от 800×500 пикселей и больше
+  • Вес: желательно до 500 КБ (иначе сайт будет грузиться медленно)
+  • Название: ТОЛЬКО латинские буквы и цифры, без пробелов!
+    ✅ Правильно:  slesarka.jpg   kuzov.jpg   detailing.jpg   tonirovka.jpg
+    ❌ Неправильно: слесарка.jpg  кузов ремонт.jpg  фото 1.jpg
+
+  ШАГ 2. Положи фото в ту же папку, что и index.html
+  ────────────────────────────────────────────────────
+  Должно получиться вот так:
+  📁 Моя папка/
+     ├── index.html       ← сам сайт
+     ├── slesarka.jpg     ← фото 1
+     ├── kuzov.jpg        ← фото 2
+     ├── detailing.jpg    ← фото 3
+     └── tonirovka.jpg    ← фото 4
+
+  ШАГ 3. Открой index.html в текстовом редакторе
+  ────────────────────────────────────────────────
+  • Кликни правой кнопкой мыши на index.html
+  • Выбери "Открыть с помощью" → "Блокнот" (или Notepad++, VS Code)
+  • НЕ открывай в Word — он испортит код!
+
+  ШАГ 4. Найди нужное место в коде
+  ──────────────────────────────────
+  Нажми Ctrl+F (поиск) и введи, например: id="photo-slesarka"
+  Ты увидишь такой блок:
+
+    <div class="service-photo" id="photo-slesarka">
+      <div class="service-photo-icon">🔩</div>
+      <div class="service-photo-label">📸 Фото: пример...</div>
+    </div>
+
+  ШАГ 5. Замени блок на картинку
+  ────────────────────────────────
+  УДАЛИ весь этот блок (от <div class="service-photo"> до </div>)
+  и ВМЕСТО него вставь ОДНУ строку:
+
+    <img src="slesarka.jpg" alt="Слесарные работы" class="service-img">
+
+  Для каждой карточки своё фото:
+  • id="photo-slesarka"  → <img src="slesarka.jpg"  alt="Слесарные работы" class="service-img">
+  • id="photo-kuzov"     → <img src="kuzov.jpg"     alt="Кузовной ремонт"  class="service-img">
+  • id="photo-detailing" → <img src="detailing.jpg" alt="Детейлинг"        class="service-img">
+  • id="photo-tonirovka" → <img src="tonirovka.jpg" alt="Тонировка"        class="service-img">
+
+  ШАГ 6. Сохрани файл и обнови браузер
+  ──────────────────────────────────────
+  • Нажми Ctrl+S в блокноте
+  • Переключись в браузер и нажми F5 (обновить)
+  • Фото появится!
+
+  ЕСЛИ ФОТО НЕ ПОЯВИЛОСЬ — ПРОВЕРЬ:
+  ✔ Файл фото лежит рядом с index.html (в той же папке)?
+  ✔ Имя файла совпадает ТОЧНО? (slesarka.jpg ≠ Slesarka.JPG)
+  ✔ Расширение .jpg, а не .JPG или .jpeg? (на Mac бывает)
+  ✔ Нет пробелов в имени файла?
+
+-->
+
+<!-- ===================== ПЛАВАЮЩАЯ КНОПКА (только мобильный) ===================== -->
+<!-- Появляется только на телефоне — удобный быстрый звонок -->
+<a href="tel:+79836142064" class="float-call" title="Позвонить">📞</a>
+
+
+<!-- ===================== МИНИ-СКРИПТ: плавная прокрутка ===================== -->
+<script>
+  // Плавная прокрутка к якорям (уже встроена через CSS scroll-behavior: smooth)
+  // Этот скрипт нужен только для старых браузеров
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
