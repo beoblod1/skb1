@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сделай как было — кузовной ремонт в Красноярске</title>
+
+<!--
+  =====================================================================
+  САЙТ-ВИЗИТКА АВТОКОМПЛЕКСА «СДЕЛАЙ КАК БЫЛО»
+  Один файл: HTML + CSS + немного JS (для модального окна галереи).
+  Открывается двойным кликом в любом браузере, интернет не нужен.
+  Все места, где можно/нужно менять текст, фото, телефоны — помечены
+  комментариями на русском языке в формате:
+  ====== БЛОК: НАЗВАНИЕ — начало / конец ======
+  =====================================================================
+-->
+
+<style>
+  /* ===================== ПЕРЕМЕННЫЕ ЦВЕТА (палитра) ===================== */
+  :root{
+    --bg-dark:      #171112;   /* основной тёмный фон страницы */
+    --bg-darker:    #100c0d;   /* ещё темнее — шапка, футер */
+    --bg-surface:   #241b1d;   /* фон карточек */
+    --bg-surface-2: #2e2224;   /* фон карточек при наведении */
+    --border:       #3d2c2f;   /* тонкие рамки/разделители */
+    --text-light:   #f4ece9;   /* основной светлый текст */
+    --text-muted:   #b9a9a6;   /* приглушённый текст (подписи, время) */
+    --red:          #d4223a;   /* основной красный акцент, кнопки */
+    --red-dark:     #9c1128;   /* красный потемнее — hover, тени */
+    --red-bright:   #ff4d5e;   /* яркий красный — акценты, ссылки */
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{
+    scroll-behavior: smooth; /* плавная прокрутка по ссылкам "Подробнее" */
+  }
+
+  body{
+    background:var(--bg-dark);
+    color:var(--text-light);
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    line-height:1.5;
+    font-size:17px;
+  }
+
+  h1,h2,h3{
+    font-family: "Arial Black", "Arial Narrow", Impact, sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    line-height:1.15;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+
+  .container{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  .eyebrow{
+    display:inline-block;
+    color:var(--red-bright);
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:13px;
+    margin-bottom:10px;
+  }
+
+  /* ===================== КНОПКИ ===================== */
+  .btn{
+    display:inline-block;
+    background:var(--red);
+    color:#fff;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    padding:14px 26px;
+    border-radius:6px;
+    border:2px solid var(--red);
+    font-size:16px;
+    cursor:pointer;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{ background:var(--red-dark); border-color:var(--red-dark); transform:translateY(-2px); }
+  .btn-outline{
+    background:transparent;
+    color:var(--text-light);
+    border:2px solid var(--text-muted);
+  }
+  .btn-outline:hover{ border-color:var(--red-bright); color:var(--red-bright); background:transparent; }
+  .btn-block{ display:block; width:100%; text-align:center; }
+  .btn-small{ padding:10px 18px; font-size:14px; }
+
+  /* ===================== ШАПКА (фиксированная) ===================== */
+  header.site-header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    background:rgba(16,12,13,0.96);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(4px);
+  }
+  .header-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:12px 20px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .logo{
+    font-family:"Arial Black", Impact, sans-serif;
+    text-transform:uppercase;
+    font-size:20px;
+    letter-spacing:0.5px;
+    white-space:nowrap;
+  }
+  .logo span{ color:var(--red-bright); }
+  .header-right{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+  .header-hours{
+    color:var(--text-muted);
+    font-size:13px;
+    display:none;
+  }
+  @media(min-width:640px){ .header-hours{ display:block; } }
+
+  /* отступ под фиксированную шапку */
+  body{ padding-top:86px; }
+  @media(min-width:640px){ body{ padding-top:74px; } }
+
+  /* ===================== HERO ===================== */
+  .hero{
+    position:relative;
+    padding:70px 0 60px;
+    background:
+      linear-gradient(180deg, rgba(16,12,13,0.55), var(--bg-dark) 92%),
+      repeating-linear-gradient(135deg, #1c1415 0 2px, #171112 2px 26px);
+    border-bottom:3px solid var(--red-dark);
+    text-align:center;
+  }
+  .hero-photo-placeholder{
+    max-width:760px;
+    margin:0 auto 26px;
+    border:2px dashed var(--border);
+    border-radius:10px;
+    padding:50px 16px;
+    color:var(--text-muted);
+    font-size:14px;
+    background:rgba(255,255,255,0.02);
+  }
+  .hero h1{
+    font-size:clamp(28px,6vw,46px);
+    margin-bottom:14px;
+  }
+  .hero p.subtitle{
+    max-width:640px;
+    margin:0 auto 30px;
+    color:var(--text-muted);
+    font-size:18px;
+  }
+  .hero .btn{ font-size:19px; padding:18px 36px; }
+
+  /* ===================== ОБЩИЕ СЕКЦИИ ===================== */
+  section{ padding:60px 0; }
+  section.alt{ background:var(--bg-darker); }
+  .section-title{
+    font-size:clamp(24px,4vw,34px);
+    margin-bottom:8px;
+  }
+  .section-sub{
+    color:var(--text-muted);
+    max-width:640px;
+    margin-bottom:36px;
+    font-size:16px;
+  }
+
+  /* ===================== СЕТКА КАРТОЧЕК УСЛУГ ===================== */
+  /* СЕТКА КАРТОЧЕК УСЛУГ */
+.grid-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 640px) {
+  .grid-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 960px) {
+  .grid-cards.cols-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* Анимацию hover убрал, как вы просили */
+}
+
+.grid-cards.cols-3 {
+  display: grid;
+  /* 3 колонки на десктопе, адаптив на мобильных */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  /* Фиксируем высоту строк — это убирает «лесенку» */
+  grid-auto-rows: 460px; 
+}
+
+/* На планшетах можно сделать 2 колонки */
+@media (max-width: 1024px) {
+  .grid-cards.cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* На мобильных — 1 колонка */
+@media (max-width: 600px) {
+  .grid-cards.cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* БЛОК С ФОТО — ГЛАВНОЕ ИСПРАВЛЕНИЕ */
+.card-photo {
+  /* УБРАЛИ repeating-linear-gradient — теперь тут не будет полос */
+  
+  /* Пропорции и высота: карточка будет высокой, но не сплющенной */
+  min-height: 280px;
+  aspect-ratio: 4 / 3; /* Классические пропорции фото. Если нужно выше — ставьте 3 / 4 */
+  
+  /* ВСТАВЬТЕ СЮДА ВАШЕ ФОТО */
+  background-image: url(''); 
+  background-size: cover;       /* Картинка заполнит блок, ничего не обрежется по бокам */
+  background-position: center top; /* Сдвигаем фото вверх, чтобы капот был виден, а пол цеха скрыт */
+  background-repeat: no-repeat;
+  
+  /* Центрирование (на случай, если фото не загрузится) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 0; /* Убрали лишние отступы, чтобы фото было во всю ширину */
+}
+
+.card-body {
+  padding: 18px 20px 22px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.card-body p {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.card-num {
+  display: inline-block;
+  color: var(--red-bright);
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+
+  /* центральный (главный) блок кузовного ремонта — визуально крупнее */
+  .bodywork-section{
+    border-top:3px solid var(--red-dark);
+    border-bottom:3px solid var(--red-dark);
+    background:
+      linear-gradient(180deg, rgba(212,34,58,0.06), transparent 30%),
+      var(--bg-dark);
+  }
+  .bodywork-section .card{ border-color:#4a2f33; }
+
+  /* ===================== ФИЛИАЛЫ ===================== */
+  .branches{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+  }
+  @media(min-width:720px){ .branches{ grid-template-columns:1fr 1fr; } }
+  .branch-card{
+    background:var(--bg-surface);
+    border:1px solid var(--border);
+    border-left:5px solid var(--red);
+    border-radius:8px;
+    padding:26px 24px;
+  }
+  .branch-card h3{ font-size:20px; margin-bottom:10px; }
+  .branch-card p{ color:var(--text-muted); margin-bottom:6px; }
+  .branch-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+
+  /* ===================== ГАЛЕРЕЯ "НАШИ РАБОТЫ" ===================== */
+  /* === ГАЛЕРЕЯ "НАШИ РАБОТЫ" === */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* 1 колонка на мобильных */
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr; /* 2 колонки на планшетах */
+  }
+}
+
+@media (min-width: 960px) {
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr 1fr; /* 3 колонки на десктопе */
+  }
+}
+
+.gallery-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- ГЛАВНОЕ ИСПРАВЛЕНИЕ: БЛОК С ФОТО --- */
+.gallery-media {
+  position: relative;
+  width: 100%;
+  
+  /* ВАЖНО: убрали repeating-linear-gradient. Теперь фон чистый */
+  background-color: #000; /* Цвет заглушки, если фото не загрузится */
+  
+  /* Фиксируем пропорции карточки. 
+     Если хотите квадратные карточки: aspect-ratio: 1 / 1;
+     Если хотите прямоугольные (как у авто): aspect-ratio: 4 / 3; */
+  aspect-ratio: 4 / 3; 
+  
+  /* Минимальная высота, чтобы на больших экранах карточки не были слишком мелкими */
+  min-height: 240px; 
+  
+  cursor: pointer;
+  overflow: hidden; /* Обрезаем всё, что вылезает за пропорции */
+}
+
+/* --- СТИЛИЗАЦИЯ САМОГО ФОТО --- */
+.gallery-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Фото заполняет блок, не сплющиваясь и не растягиваясь */
+  display: block; /* Убирает лишние отступы снизу у картинки */
+  transition: transform 0.3s ease; /* Плавность (опционально, можно убрать) */
+}
+
+.gallery-media img:hover {
+  transform: scale(1.02); /* Легкий зум при наведении. Если не нужно — удалите этот блок */
+}
+
+/* --- ПОДПИСЬ (Caption) --- */
+.gallery-caption {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--text-light);
+  /* Если фон карточки темный, текст будет светлым. Если светлый — поменяйте на var(--text-muted) */
+  line-height: 1.4;
+  flex: 1; /* Растягивает подпись, чтобы кнопки (если будут) были на одном уровне */
+}
+
+.gallery-item video {
+  width: 100%;
+  display: block;
+  background: #000;
+}
+
+/* === МОДАЛЬНОЕ ОКНО (Просмотр фото) === */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-overlay img {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 6px;
+  border: 2px solid var(--red-dark);
+  object-fit: contain; /* В модальном окне показываем фото целиком, без обрезки */
+}
+
+  }
+
+  /* ===================== ФУТЕР ===================== */
+  footer{
+    background:var(--bg-darker);
+    border-top:3px solid var(--red-dark);
+    padding:40px 0 30px;
+    text-align:center;
+  }
+  footer .foot-phone{
+    font-size:26px;
+    font-weight:700;
+    color:var(--red-bright);
+    margin-bottom:10px;
+    display:inline-block;
+  }
+  footer p{ color:var(--text-muted); font-size:14px; margin-bottom:6px; }
+  footer .btn{ margin-top:18px; }
+
+  .anchor-offset{ scroll-margin-top:90px; } /* чтобы якоря не прятались под шапкой */
+  
+  /* ===================== растягивание ===================== */
+  
+  .card-photo-wrapper {
+  position: relative;
+  height: 60%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Заполняет блок без искажений */
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.card-photo-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ====== БЛОК: ШАПКА — начало ====== -->
+<!-- Здесь меняется название компании и главный номер телефона -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">Сделай как <span>было</span></div>
+    <div class="header-right">
+      <span class="header-hours">Пн–Сб 9:00–19:00</span>
+      <!-- Главный номер телефона. Чтобы поменять — меняй и текст, и номер после tel: -->
+      <a class="btn btn-small" href="tel:+73912296209">📞 296-20-99</a>
+    </div>
+  </div>
+</header>
+<!-- ====== БЛОК: ШАПКА — конец ====== -->
+
+
+<!-- ====== БЛОК: ГЛАВНЫЙ ЭКРАН (HERO) — начало ====== -->
+<section class="hero">
+  <div class="container">
+    <!-- Заглушка фонового фото. Как заменить на настоящее фото — смотри инструкцию в ответе ниже -->
+
+    <h1>Автокомплекс «Сделай как было»</h1>
+    <p class="subtitle">
+      Честный кузовной ремонт в Красноярске. Гуманные цены, реальные сроки.
+      Работаем по принципу — делаем как было.
+    </p>
+    <a class="btn" href="tel:+73912296209">Позвонить: 296-20-99</a>
+  </div>
+</section>
+<!-- ====== БЛОК: ГЛАВНЫЙ ЭКРАН (HERO) — конец ====== -->
+
+
+<!-- ====== БЛОК: КУЗОВНОЙ РЕМОНТ — начало ====== -->
+<!-- Это главный, самый большой раздел сайта. Каждая карточка = один вид работ. -->
+<section class="bodywork-section">
+  <div class="container">
+    <span class="eyebrow">Главное направление</span>
+    <h2 class="section-title">Кузовной ремонт</h2>
+    <p class="section-sub">
+      От небольшой вмятины до полного восстановления геометрии кузова —
+      делаем так, будто ничего не было.
+    </p>
+
+    <div class="grid-cards cols-3">
+
+      <!-- Карточка 1: Покраска -->
+       <div class="card">
+         <div class="card-photo-wrapper">
+           <img src="kuzov.jpg" alt="Покраска кузова автомобиля" class="card-image">
+         </div>
+        <div class="card-body">
+          <span class="card-num">01</span>
+          <h3>Покраска</h3>
+          <p>Полная и частичная покраска кузова, точный подбор цвета в тон заводской краске.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+         </div>
+       </div>
+
+      <!-- Карточка 2: Восстановление пластика -->
+      <div class="card">
+        <div class="card-photo-wrapper">
+           <img src="kuzov.jpg" alt="Покраска кузова автомобиля" class="card-image">
+         </div>
+        <div class="card-body">
+          <span class="card-num">02</span>
+          <h3>Восстановление пластика</h3>
+          <p>Ремонт бамперов и других пластиковых элементов кузова: трещины, сколы, разрывы.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <!-- Карточка 3: Восстановление фар -->
+      <div class="card">
+        <div class="card-photo-wrapper">
+           <img src="kuzov.jpg" alt="Покраска кузова автомобиля" class="card-image">
+         </div>
+        <div class="card-body">
+          <span class="card-num">03</span>
+          <h3>Восстановление фар</h3>
+          <p>Разборка, чистка, полировка и обратная сборка фар — возвращаем прозрачность и яркость света.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <!-- Карточка 4: Ремонт бамперов -->
+      <div class="card">
+        <div class="card-photo-wrapper">
+           <img src="kuzov.jpg" alt="Покраска кузова автомобиля" class="card-image">
+         </div>
+        <div class="card-body">
+          <span class="card-num">04</span>
+          <h3>Ремонт бамперов</h3>
+          <p>Восстановление, замена и надёжное крепление бамперов любой сложности.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <!-- Карточка 5: Стапельные работы -->
+      <div class="card">
+        <div class="card-photo-wrapper">
+           <img src="kuzov.jpg" alt="Покраска кузова автомобиля" class="card-image">
+         </div>
+        <div class="card-body">
+          <span class="card-num">05</span>
+          <h3>Стапельные работы</h3>
+          <p>Вытягивание кузова на стапеле, восстановление правильной геометрии после серьёзных ударов.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <!-- Карточка 6: Выправка -->
+      <div class="card">
+        <div class="card-photo">Фото: рихтовка металла</div>
+        <div class="card-body">
+          <span class="card-num">06</span>
+          <h3>Выправка</h3>
+          <p>Рихтовка металла и удаление вмятин без покраски там, где это возможно.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <!-- Карточка 7: Замена кузовных элементов -->
+      <div class="card">
+        <div class="card-photo">Фото: установка новой детали кузова</div>
+        <div class="card-body">
+          <span class="card-num">07</span>
+          <h3>Замена кузовных элементов</h3>
+          <p>Вырезка повреждённых участков и точная установка новых элементов кузова.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <!-- Карточка 8: Замена лобового стекла -->
+      <div class="card">
+        <div class="card-photo">Фото: установка лобового стекла</div>
+        <div class="card-body">
+          <span class="card-num">08</span>
+          <h3>Замена лобового стекла</h3>
+          <p>Аккуратное снятие и установка автостёкол с полной герметизацией.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ====== БЛОК: КУЗОВНОЙ РЕМОНТ — конец ====== -->
+
+
+<!-- ====== БЛОК: РЕМОНТ ПОРОГОВ И ДНИЩА — начало ====== -->
+<section class="alt">
+  <div class="container">
+    <span class="eyebrow">Отдельное направление</span>
+    <h2 class="section-title">Ремонт порогов и днища</h2>
+    <p class="section-sub">Восстанавливаем несущие элементы кузова там, где начинается коррозия и усталость металла.</p>
+
+    <div class="grid-cards cols-3">
+
+      <!-- Карточка: Ремонт порогов -->
+      <div class="card">
+        <div class="card-photo-wrapper">
+           <img src="kuzov.jpg" alt="Покраска кузова автомобиля" class="card-image">
+         </div>
+        <div class="card-body">
+          <h3>Ремонт порогов</h3>
+          <p>Замена, сварка и полное восстановление порогов кузова.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <!-- Карточка: Ремонт днища -->
+      <div class="card">
+        <div class="card-photo-wrapper">
+           <img src="kuzov.jpg" alt="Покраска кузова автомобиля" class="card-image">
+         </div>
+        <div class="card-body">
+          <h3>Ремонт днища</h3>
+          <p>Восстановление днища кузова после коррозии или механических повреждений.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <!-- Карточка: Ремонт ванн -->
+      <div class="card">
+        <div class="card-photo">Фото: ремонт ванны кузова</div>
+        <div class="card-body">
+          <h3>Ремонт ванн</h3>
+          <p>Ремонт и восстановление полов и «ванн» кузова с сохранением жёсткости конструкции.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ====== БЛОК: РЕМОНТ ПОРОГОВ И ДНИЩА — конец ====== -->
+
+
+<!-- ====== БЛОК: ДЕТЕЙЛИНГ — начало ====== -->
+<section>
+  <div class="container">
+    <span class="eyebrow">Уход и защита</span>
+    <h2 class="section-title">Детейлинг</h2>
+    <p class="section-sub">Финальный штрих после ремонта или просто уход за автомобилем.</p>
+
+    <div class="grid-cards cols-3">
+
+      <div class="card">
+        <div class="card-photo">Фото: химчистка салона</div>
+        <div class="card-body">
+          <span class="card-num">01</span>
+          <h3>Химчистка салона</h3>
+          <p>Глубокая чистка сидений, потолка, ковров и пластика салона.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo">Фото: полировка кузова</div>
+        <div class="card-body">
+          <span class="card-num">02</span>
+          <h3>Полировка кузова</h3>
+          <p>Убираем царапины и придаём кузову глубокий, ровный блеск.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo">Фото: бронирование кузова плёнкой</div>
+        <div class="card-body">
+          <span class="card-num">03</span>
+          <h3>Бронировка</h3>
+          <p>Защитная плёнка на кузов и фары — от сколов, песка и мелких царапин.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo">Фото: тонировка стёкол</div>
+        <div class="card-body">
+          <span class="card-num">04</span>
+          <h3>Тонировка стёкол</h3>
+          <p>Аккуратная тонировка по ГОСТу или по вашему пожеланию.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo">Фото: перетяжка руля</div>
+        <div class="card-body">
+          <span class="card-num">05</span>
+          <h3>Перетяжка руля и ремонт салона</h3>
+          <p>Перетяжка руля кожей, ремонт и обновление элементов салона.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ====== БЛОК: ДЕТЕЙЛИНГ — конец ====== -->
+
+
+<!-- ====== БЛОК: СЛЕСАРНЫЕ РАБОТЫ / МЕХАНИКА — начало ====== -->
+<section class="alt">
+  <div class="container">
+    <span class="eyebrow">Второй филиал</span>
+    <h2 class="section-title">Слесарные работы / Механика</h2>
+    <p class="section-sub">Обслуживаем механическую часть автомобиля — не только кузов.</p>
+
+    <div class="grid-cards cols-3">
+
+      <div class="card">
+        <div class="card-photo-wrapper">
+           <img src="slesarka.jpg" alt="Покраска кузова автомобиля" class="card-image">
+         </div>
+        <div class="card-body">
+          <h3>Ремонт и обслуживание двигателя</h3>
+          <p>Диагностика, ремонт и плановое обслуживание двигателя.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo">Фото: ремонт ходовой</div>
+        <div class="card-body">
+          <h3>Ремонт ходовой части</h3>
+          <p>Замена и ремонт элементов подвески, устранение стуков и люфтов.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo">Фото: диагностика электрики</div>
+        <div class="card-body">
+          <h3>Автоэлектрика</h3>
+          <p>Диагностика и ремонт электрооборудования автомобиля.</p>
+          <a class="btn btn-outline btn-block" href="#branches">Подробнее</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ====== БЛОК: СЛЕСАРНЫЕ РАБОТЫ / МЕХАНИКА — конец ====== -->
+
+
+<!-- ====== БЛОК: ФИЛИАЛЫ — начало ====== -->
+<section id="branches" class="anchor-offset">
+  <div class="container">
+    <span class="eyebrow">Где нас найти</span>
+    <h2 class="section-title">Филиалы</h2>
+    <p class="section-sub">Два адреса в Красноярске — кузовной ремонт и слесарные работы.</p>
+
+    <div class="branches">
+
+      <!-- Филиал 1 — Кузовной ремонт. Меняй адрес и телефон именно здесь -->
+      <div class="branch-card">
+        <h3>Кузовной ремонт</h3>
+        <p>проезд Связистов, 17 ст4, Красноярск</p>
+        <p>Пн–Сб 9:00–19:00, Вс — выходной</p>
+        <div class="branch-actions">
+          <a class="btn btn-small" href="tel:+73912296209">📞 296-20-99</a>
+          <a class="btn btn-outline btn-small" target="_blank" rel="noopener"
+             href="https://go.2gis.com/DEaRt">Как проехать</a>
+        </div>
+      </div>
+
+      <!-- Филиал 2 — Слесарные работы. Меняй адрес и телефон именно здесь -->
+      <div class="branch-card">
+        <h3>Слесарные работы</h3>
+        <p>ул. Волгоградская, 2б, бокс 75, Красноярск</p>
+        <p>Пн–Сб 9:00–19:00, Вс — выходной</p>
+        <div class="branch-actions">
+          <a class="btn btn-small" href="tel:+79082002600">📞 +7 (908) 200-26-00</a>
+          <a class="btn btn-outline btn-small" target="_blank" rel="noopener"
+             href="https://go.2gis.com/RJkjy">Как проехать</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ====== БЛОК: ФИЛИАЛЫ — конец ====== -->
+
+
+<!-- ====== БЛОК: НАШИ РАБОТЫ (ГАЛЕРЕЯ) — начало ====== -->
+<section class="alt">
+  <div class="container">
+    <span class="eyebrow">Портфолио</span>
+    <h2 class="section-title">Наши работы</h2>
+    <p class="section-sub">Реальные фото и видео с ремонтов. Кликните по фото, чтобы увеличить.</p>
+
+    <div class="gallery-grid">
+
+      <!--
+        ШАБЛОН ФОТО-КАРТОЧКИ (копируй этот блок целиком, чтобы добавить новое фото):
+
+        <div class="gallery-item">
+          <div class="gallery-media" onclick="openModal('ПУТЬ_К_ФОТО.jpg')">
+            <img src="ПУТЬ_К_ФОТО.jpg" alt="Описание фото">
+          </div>
+          <div class="gallery-caption">Подпись под фото</div>
+        </div>
+      -->
+
+      <!-- Карточка 1 (заглушка фото) -->
+      <div class="gallery-item">
+          <div class="gallery-media" onclick="openModal('kuzov.jpg')">
+            <img src="kuzov.jpg" alt="Описание фото">
+          </div>
+          <div class="gallery-caption">Подпись под фото</div>
+        </div>
+
+      <!-- Карточка 2 (заглушка фото) -->
+      <div class="gallery-item">
+        <div class="gallery-media">Фото: покраска крыла</div>
+        <div class="gallery-caption">Kia Rio — локальная покраска</div>
+      </div>
+
+      <!-- Карточка 3 (заглушка фото) -->
+      <div class="gallery-item">
+        <div class="gallery-media">Фото: выправка вмятины</div>
+        <div class="gallery-caption">Hyundai Solaris — рихтовка двери</div>
+      </div>
+
+      <!--
+        ШАБЛОН ВИДЕО-КАРТОЧКИ (копируй, чтобы добавить своё видео).
+
+        Вариант А — локальный файл mp4:
+        <video controls preload="none" poster="ПУТЬ_К_ЗАСТАВКЕ.jpg">
+          <source src="ПУТЬ_К_ВИДЕО.mp4" type="video/mp4">
+        </video>
+
+        Вариант Б — видео с YouTube (вставляется через iframe):
+        <iframe width="100%" height="220"
+          src="https://www.youtube.com/embed/ID_ВИДЕО"
+          title="Видео" frameborder="0" allowfullscreen></iframe>
+
+        Вариант В — видео с VK Видео (тоже через iframe, ссылку берём из кнопки "Поделиться → Вставить видео" на VK)
+      -->
+
+      <!-- Карточка 4 (заглушка видео) -->
+      <div class="gallery-item">
+        <iframe width="100%" height="220"
+          src="https://vk.ru/video_ext.php?oid=-142125756&id=456242506&hash=50c019a6d9018f24&hd=4"
+          title="Видео" frameborder="0" allowfullscreen></iframe>
+        <div class="gallery-caption">Renault Duster — стапельные работы</div>
+      </div>
+
+      <!-- Карточка 5 (заглушка фото) -->
+      <div class="gallery-item">
+        <div class="gallery-media">Фото: восстановление фары</div>
+        <div class="gallery-caption">Lada Vesta — полировка фар</div>
+      </div>
+
+      <!-- Карточка 6 (заглушка фото) -->
+      <div class="gallery-item">
+        <div class="gallery-media">Фото: детейлинг салона</div>
+        <div class="gallery-caption">Nissan X-Trail — химчистка салона</div>
+      </div>
+
+      <!-- Карточка 7 (заглушка видео) -->
+      <div class="gallery-item">
+        <div class="gallery-media">Видео: полировка кузова</div>
+        <div class="gallery-caption">Skoda Octavia — полировка и бронирование</div>
+      </div>
+
+      <!-- Карточка 8 (заглушка фото) -->
+      <div class="gallery-item">
+        <div class="gallery-media">Фото: ремонт бампера, до/после</div>
+        <div class="gallery-caption">Mazda 6 — восстановление бампера</div>
+      </div>
+	  
+	  <!-- Карточка 9 (заглушка фото) -->
+	  <div class="gallery-item">
+          <div class="gallery-media" onclick="openModal('kuzov.jpg')">
+            <img src="kuzov.jpg" alt="Описание фото">
+          </div>
+          <div class="gallery-caption">Подпись под фото</div>
+        </div>
+		
+	  <!-- Карточка 10 (заглушка видео) -->
+	  <div class="gallery-item">
+        <iframe width="100%" height="220"
+          src="https://vk.ru/video_ext.php?oid=-237355117&id=456239044&hash=906e32c09db4e058&hd=4"
+          title="Видео" frameborder="0" allowfullscreen></iframe>
+        <div class="gallery-caption">Renault Duster — стапельные работы</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ====== БЛОК: НАШИ РАБОТЫ (ГАЛЕРЕЯ) — конец ====== -->
+
+
+<!-- Модальное окно для увеличенного просмотра фото -->
+<div class="modal-overlay" id="photoModal" onclick="closeModal()">
+  <img id="modalImage" src="" alt="Увеличенное фото">
+</div>
+
+
+<!-- ====== БЛОК: ФУТЕР — начало ====== -->
+<footer>
+  <div class="container">
+    <a class="foot-phone" href="tel:+73912296209">296-20-99</a>
+    <p>Пн–Сб 9:00–19:00, Вс — выходной</p>
+    <p>© Автокомплекс «Сделай как было», Красноярск</p>
+    <a class="btn" href="tel:+73912296209">Позвонить</a>
+  </div>
+</footer>
+<!-- ====== БЛОК: ФУТЕР — конец ====== -->
+
+
+<script>
+  // Простое модальное окно для просмотра фото в галерее.
+  // Работает так: клик по фото — открывается увеличенная версия,
+  // клик в любом месте вне фото (по тёмному фону) — закрывается.
+  function openModal(src){
+    var modal = document.getElementById('photoModal');
+    var img = document.getElementById('modalImage');
+    img.src = src;
+    modal.classList.add('open');
+  }
+  function closeModal(){
+    document.getElementById('photoModal').classList.remove('open');
+  }
+</script>
+
+</body>
+</html>
